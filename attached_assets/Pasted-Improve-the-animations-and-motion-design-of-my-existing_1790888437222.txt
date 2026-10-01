@@ -1,0 +1,298 @@
+Improve the animations and motion design of my existing portfolio.
+
+IMPORTANT:
+
+* Do NOT change any existing content.
+* Do NOT rewrite, remove, or add sections.
+* Do NOT change the existing background.
+* Do NOT change the existing color palette, typography, layout, cards, spacing, or overall visual identity.
+* Do NOT add landscape images, 3D backgrounds, particles, floating objects, futuristic AI graphics, or decorative animations.
+* Do NOT redesign the website.
+* Only improve the animation and interaction quality.
+
+The current animations are too subtle and do not feel noticeable enough. Replace them with more polished, effective, professional motion that makes the portfolio feel dynamic while still looking like a serious software engineering student's portfolio.
+
+### 1. Page/section entrance animation
+
+Make section transitions clearly visible when the user enters a new section.
+
+Use:
+
+* Fade + upward movement
+* Slight scale from approximately 0.97 to 1
+* Smooth easing
+* Around 500–700ms duration
+* Stagger child elements by approximately 80–120ms
+
+The movement should be noticeable but not dramatic.
+
+For example:
+
+Section heading
+→ appears first
+
+Description
+→ follows slightly after
+
+Cards/content
+→ appear sequentially
+
+Avoid everything appearing simultaneously.
+
+### 2. Hero section
+
+Make the initial portfolio opening feel more polished.
+
+Animate the hero in this order:
+
+1. Small introductory text
+2. Main name/headline
+3. Supporting description
+4. CTA buttons
+5. Social/profile links
+
+Use a combination of:
+
+* opacity
+* translateY
+* very subtle scale
+
+The hero should feel like the page is naturally revealing itself rather than simply loading.
+
+Do not use typewriter effects.
+
+### 3. Navigation transitions
+
+Keep the existing navigation.
+
+When clicking a navigation item:
+
+* Use smooth scrolling.
+* Make the destination section settle naturally into position.
+* Add a subtle active-state transition to the selected navigation item.
+* Avoid instant jumps.
+
+If technically appropriate, add a very subtle transition when the navigation bar changes state while scrolling.
+
+### 4. About section
+
+When the About section enters the viewport:
+
+* Animate the heading first.
+* Then the paragraph/content.
+* Then any supporting elements.
+
+Use staggered fade + slide-up motion.
+
+The animation should feel like the content is being presented, not simply appearing.
+
+### 5. Skills section
+
+Make the skills visually interactive.
+
+When the Skills section enters the viewport:
+
+* Animate the skill categories sequentially.
+* Animate individual skill items with a small stagger.
+* Use a subtle upward movement combined with opacity.
+* Avoid exaggerated bouncing.
+
+On hover:
+
+* Slight upward movement.
+* Slight scale increase.
+* Smooth transition.
+* Subtle border/shadow change if already compatible with the current design.
+
+The interaction should make the skills feel responsive without becoming distracting.
+
+### 6. Project cards
+
+Make the Projects section one of the strongest animated areas.
+
+When project cards enter the viewport:
+
+* Reveal cards one after another.
+* Use fade + translateY.
+* Add a slight scale from approximately 0.97 to 1.
+
+On hover:
+
+* Card should lift slightly.
+* Content should remain stable.
+* Project buttons/links should have a subtle movement or highlight.
+* Do NOT rotate cards.
+* Do NOT use 3D card flips.
+* Do NOT use excessive scaling.
+* Do NOT add glowing neon effects.
+
+The hover effect should make the cards feel interactive and professionally engineered.
+
+### 7. Project detail pages
+
+Improve transitions when opening a project detail page.
+
+Use:
+
+* Smooth page entrance
+* Heading reveal
+* Technology/metadata reveal
+* Content sections reveal sequentially
+* Images/screenshots, if already present, should gently fade/slide into view
+
+Make the page feel like it is transitioning into a detailed case study rather than abruptly loading.
+
+Do not change the project content.
+
+### 8. Certifications
+
+Use a staggered reveal.
+
+Each certification/card should:
+
+* Fade in
+* Move slightly upward
+* Enter sequentially
+
+Add a subtle hover interaction if the existing design supports it.
+
+### 9. Buttons
+
+Improve CTA and button interactions.
+
+On hover:
+
+* Smooth transition
+* Slight upward movement
+* Very subtle scale
+* Appropriate background/border transition
+
+On click:
+
+* Add a very short pressed/active state.
+
+Do not use excessive glow, bouncing, or large movement.
+
+### 10. Scroll-based motion
+
+Make scrolling feel more dynamic.
+
+Use a lightweight Intersection Observer or CSS-based approach.
+
+Important:
+
+* Animations should trigger when content actually enters the viewport.
+* Do not continuously animate elements.
+* Do not replay the same animation every few seconds.
+* Prefer one clean reveal per section/card.
+* Keep scrolling performance smooth.
+
+### 11. Add subtle parallax only where appropriate
+
+If technically safe, add a VERY subtle parallax effect to existing non-content decorative elements.
+
+Do NOT create new decorative graphics.
+
+The effect should be extremely small and should never interfere with reading.
+
+If the existing design has no suitable decorative elements, skip parallax entirely.
+
+### 12. Transition between pages
+
+If the portfolio uses separate routes/pages for project details, add a subtle page transition:
+
+Current page:
+→ fades/slides slightly out
+
+New page:
+→ fades/slides slightly in
+
+Keep the transition short and professional.
+
+Do not create a loading screen.
+
+### 13. Motion timing
+
+Use consistent professional easing.
+
+Prefer:
+
+* ease-out
+* cubic-bezier easing
+* 400–700ms for major reveals
+* 200–300ms for hover interactions
+
+Avoid:
+
+* bouncing
+* elastic effects
+* spinning
+* excessive zooming
+* large translations
+* constant floating animations
+
+### 14. Overall motion hierarchy
+
+The animation should have a clear hierarchy:
+
+Hero:
+More noticeable
+
+Section entrances:
+Moderately noticeable
+
+Project cards:
+Noticeable and interactive
+
+Skills:
+Subtle but responsive
+
+Buttons:
+Fast and subtle
+
+Background:
+UNCHANGED
+
+This should make the website feel alive without making it look like a template or flashy AI-generated landing page.
+
+### 15. Performance
+
+Keep the implementation lightweight.
+
+* Prefer CSS transitions/transforms and Intersection Observer.
+* Do not add an animation library unless absolutely necessary.
+* Prefer transform and opacity for performance.
+* Avoid expensive continuous JavaScript animations.
+* Avoid animations that cause layout shifting.
+* Ensure animations work smoothly on desktop and mobile.
+
+### 16. Accessibility
+
+Respect:
+
+`prefers-reduced-motion`
+
+When reduced motion is enabled:
+
+* Disable large movements.
+* Keep only minimal opacity transitions or remove motion entirely.
+
+### 17. Final quality requirement
+
+After implementing the changes:
+
+* Check the complete homepage.
+* Check desktop and mobile layouts.
+* Check all navigation links.
+* Check both project detail pages.
+* Check hover interactions.
+* Check that animations do not overlap or hide content.
+* Check that content is readable immediately even if animation does not run.
+* Run typecheck.
+* Run production build.
+
+Most importantly:
+
+The final result should feel like a **professionally designed software engineering student's portfolio with intentional motion**, not a flashy animation demo.
+
+Do not modify the existing content or visual identity. Only improve the motion and interaction quality.
