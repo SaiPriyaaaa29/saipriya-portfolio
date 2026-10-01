@@ -1,0 +1,326 @@
+Update my existing portfolio website. Do NOT redesign the website from scratch.
+
+IMPORTANT:
+
+* Keep the current overall design, layout, colors, typography, navigation, animations, cards, and background style.
+* Do not replace the current background with a landscape, mountain, image, 3D scene, or large AI-generated visual.
+* Do not make the website look more "AI generated".
+* Keep the existing clean professional developer-portfolio appearance.
+* Only make the content corrections and small UI adjustments necessary below.
+* Do not invent any information, projects, experience, skills, achievements, statistics, or links.
+
+## IMPORTANT CORRECTION
+
+Remove ALL content related to "Sanchari".
+
+I did NOT work on the Sanchari project.
+
+Remove:
+
+* Sanchari project
+* Sanchari project description
+* Sanchari technologies
+* Sanchari role
+* Backend Developer & Workflow Designer role associated with Sanchari
+* Six-member team information associated with Sanchari
+* Any Technical Hub Full Stack Development experience that was incorrectly associated with Sanchari
+
+Do not mention Sanchari anywhere on the website.
+
+Do not replace Sanchari with an invented project.
+
+## MY PROFILE
+
+Name:
+Sai Priya Korupolu
+
+Education:
+B.Tech in Artificial Intelligence & Machine Learning
+Aditya College of Engineering and Technology
+2023–2027
+CGPA: 8.24
+
+Career focus:
+
+* Java Development
+* Backend Development
+* REST APIs
+* SQL
+* Data Structures & Algorithms
+* Software Engineering
+
+I am currently strengthening my Java, OOP, DSA, SQL, computer networking and backend development fundamentals.
+
+## HERO SECTION
+
+Keep the existing hero section design.
+
+Name:
+Sai Priya Korupolu
+
+Headline:
+Java Developer | Backend & REST APIs | AI & ML
+
+Supporting text:
+B.Tech AI & ML student building practical software solutions with Java, backend technologies, SQL and computer vision.
+
+Buttons:
+
+* View Projects
+* Download Resume
+
+Social links:
+
+* GitHub
+* LinkedIn
+* Email
+
+Do not invent URLs. Keep placeholders where actual URLs have not yet been provided.
+
+## ABOUT ME
+
+Use this concise content:
+
+I am a B.Tech AI & ML student interested in software engineering, Java backend development and practical problem solving. I enjoy building applications and working with APIs, databases and AI-based solutions. I am currently strengthening my Java, DSA, SQL, networking and backend development skills while preparing for software engineering opportunities.
+
+Keep it natural and professional.
+
+## SKILLS
+
+Keep the existing Skills section and use only these skills:
+
+### Languages
+
+* Java
+* Python
+* SQL
+* C
+* Dart
+
+### Backend
+
+* Java
+* Spring Boot
+* REST APIs
+* Spring Data JPA
+* Hibernate/JPA
+* Maven
+
+### Databases
+
+* SQL
+* MongoDB
+* SQLite
+* H2
+
+### AI / Computer Vision
+
+* Python
+* OpenCV
+* YOLO
+
+### Tools
+
+* Git
+* GitHub
+* Postman
+* VS Code
+* Android Studio
+
+Do NOT add fake percentages or proficiency scores.
+
+## PROJECTS
+
+Keep only these two projects.
+
+### 1. SafeCampus
+
+Title:
+SafeCampus — AI-Powered Campus Surveillance
+
+Technologies:
+Python, OpenCV, YOLO, Flutter, SQLite
+
+Description:
+An AI-powered campus surveillance concept designed to analyze CCTV footage and identify predefined objects and suspicious events, with the goal of providing immediate alerts instead of relying only on reviewing recorded footage later.
+
+Features:
+
+* Object detection
+* Suspicious-event detection
+* Unauthorized-access detection
+* Face-recognition events
+* Overcrowding detection
+* Alert generation
+* Event history
+
+Important:
+Do not claim that every planned feature is fully implemented.
+
+Current project status:
+The project includes the UI/design and AI detection workflow. The Flask backend is planned/in development and must NOT be presented as a completed backend.
+
+GitHub:
+https://github.com/yakshala/safeCampus
+
+Create a detailed project view containing:
+
+* Problem
+* Solution
+* Technologies
+* Features
+* Current implementation
+* Future improvements
+* GitHub button
+
+### 2. Task Manager REST API
+
+Title:
+Task Manager REST API
+
+Technologies:
+Java 17, Spring Boot, Spring Data JPA, H2, Maven, JUnit 5, Mockito
+
+Description:
+A backend REST API for managing tasks.
+
+Features:
+
+* Create tasks
+* Retrieve tasks
+* Update tasks
+* Delete tasks
+* Filter tasks by status
+* Validation
+* Exception handling
+* Layered architecture
+* Unit testing
+
+Do not invent:
+
+* GitHub URL
+* Deployment
+* Users
+* Performance numbers
+* Production usage
+* Completion claims that I have not provided
+
+If there is no actual GitHub repository link, do not create a fake link.
+
+## PROJECT SECTION DESIGN
+
+Keep the existing project-card design.
+
+Show:
+
+* Project name
+* Short description
+* Technologies
+* Key features
+* View Project button
+
+Make SafeCampus and Task Manager REST API the two featured projects.
+
+Do NOT add additional projects just to fill empty space.
+
+If removing Sanchari creates extra space, improve spacing rather than adding fake content.
+
+## EXPERIENCE
+
+Do NOT include the previously mentioned Sanchari/Technical Hub experience.
+
+For now, do not create an Experience section with invented employment or internship information.
+
+If the existing Experience navigation/section becomes unnecessary after removing the incorrect content, either:
+
+* remove the Experience section and its navigation item, OR
+* keep an empty/disabled placeholder only if necessary for the existing layout.
+
+Do not invent experience.
+
+## CERTIFICATIONS
+
+Keep only certifications that I have actually provided:
+
+* HackerRank SQL Basic
+* HackerRank SQL Intermediate
+* HackerRank Python Basic
+* GitHub Foundations
+* Claude Code in Action
+* Intro to MCP
+* Claude with Anthropic API
+* Intro to Agent Skills
+
+Do not invent certificate IDs or verification URLs.
+
+## PROBLEM SOLVING
+
+Keep a small section mentioning that I practice Data Structures & Algorithms and programming problems.
+
+Do not invent:
+
+* LeetCode rating
+* CodeChef rating
+* Contest rankings
+* Number of solved problems
+* Competitive programming achievements
+
+## RESUME
+
+Keep the existing "Download Resume" button.
+
+Create a placeholder where I can later connect my actual resume.
+
+Do not generate a fake resume.
+
+## CONTACT
+
+Keep:
+
+* Email
+* LinkedIn
+* GitHub
+
+Do not invent contact details or URLs.
+
+## DESIGN INSTRUCTION
+
+This is important:
+
+I do NOT want a generic AI-generated-looking portfolio.
+
+Keep the current background and overall visual style.
+
+Do NOT add:
+
+* Landscape backgrounds
+* Mountains
+* Large background photographs
+* 3D graphics
+* AI robots
+* Floating futuristic objects
+* Excessive glowing effects
+* Huge animated elements
+
+The current background should remain unchanged unless a small adjustment is required for readability.
+
+The portfolio should feel like a manually designed professional developer portfolio: clean, intentional, balanced and recruiter-friendly.
+
+## FINAL CHECK
+
+Before finishing, search the entire website and make sure the word "Sanchari" does not appear anywhere.
+
+Also verify that:
+
+* No Sanchari content remains
+* No incorrect Technical Hub/Sanchari experience remains
+* Only SafeCampus and Task Manager REST API appear as projects
+* No fake project links exist
+* No fake achievements exist
+* No invented experience exists
+* No landscape background has been added
+* Existing design is preserved
+* Website remains responsive on desktop and mobile
+* Navigation works correctly
+* Resume button remains available
+* GitHub link for SafeCampus works correctly

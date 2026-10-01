@@ -14,7 +14,6 @@ const navItems = [
   ['About', '/#about'],
   ['Skills', '/#skills'],
   ['Projects', '/#projects'],
-  ['Experience', '/#experience'],
   ['Certifications', '/#certifications'],
   ['Contact', '/#contact'],
 ];
@@ -132,7 +131,7 @@ const skillGroups = [
   { title: 'Languages', items: ['Java', 'Python', 'SQL', 'C', 'Dart'] },
   { title: 'Backend', items: ['Java', 'Spring Boot', 'REST APIs', 'Spring Data JPA', 'Hibernate / JPA', 'Maven'] },
   { title: 'Databases', items: ['SQL', 'MongoDB', 'SQLite', 'H2'] },
-  { title: 'AI / Vision', items: ['Python', 'OpenCV', 'YOLO'] },
+  { title: 'AI / Computer Vision', items: ['Python', 'OpenCV', 'YOLO'] },
   { title: 'Tools', items: ['Git', 'GitHub', 'Postman', 'VS Code', 'Android Studio'] },
 ];
 
@@ -165,7 +164,7 @@ function Projects() {
               <span className="project-number">01 / AI &amp; COMPUTER VISION</span>
               <h3>SafeCampus</h3>
               <p>An AI-powered campus surveillance concept designed to analyze CCTV footage and identify predefined objects and suspicious events—supporting immediate alerts over only reviewing recordings later.</p>
-              <Link className="button button-primary" href="/projects/safecampus">Explore case study <ArrowRight size={14} /></Link>
+              <Link className="button button-primary" href="/projects/safecampus">View Project <ArrowRight size={14} /></Link>
             </div>
             <div className="project-side">
               <div>
@@ -180,19 +179,11 @@ function Projects() {
             <div>
               <span className="project-number">02 / JAVA BACKEND</span>
               <h3>Task Manager REST API</h3>
-              <p>A Java backend REST API concept for managing tasks, with CRUD operations, status filtering, validation, exception handling, layered architecture and unit testing.</p>
-              <div className="compact-tags">{['Java 17', 'Spring Boot', 'Spring Data JPA', 'H2', 'Maven', 'JUnit 5', 'Mockito'].map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+              <p>A backend REST API for managing tasks.</p>
+              <div className="compact-tags">{taskManagerTechnologies.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+              <div className="feature-list compact-feature-list">{taskManagerFeatures.map((feature) => <span key={feature}>{feature}</span>)}</div>
             </div>
-            <span className="compact-action placeholder-link" title="Repository URL not provided">Repository · not provided</span>
-          </article>
-          <article className="compact-project">
-            <div>
-              <span className="project-number">03 / TEAM PROJECT</span>
-              <h3>Sanchari</h3>
-              <p>Project developed during the Technical Hub Full Stack Development with React Native program. Backend Developer &amp; Workflow Designer, on a six-member team.</p>
-              <div className="compact-tags"><span className="tag">Technical Hub</span><span className="tag">Full Stack Development with React Native</span></div>
-            </div>
-            <span className="compact-action placeholder-link" title="Repository URL not provided">Repository &amp; details · to be added</span>
+            <Link className="button button-primary compact-action" href="/projects/task-manager">View Project <ArrowRight size={14} /></Link>
           </article>
         </div>
       </div>
@@ -200,23 +191,18 @@ function Projects() {
   );
 }
 
-function Experience() {
-  return (
-    <section className="section" id="experience">
-      <div className="shell">
-        <SectionHeading index="04" label="Experience" title="Learning by working together." />
-        <article className="experience-card">
-          <div className="experience-date">2026</div>
-          <div>
-            <h3>Technical Hub — Full Stack Development Program / Internship</h3>
-            <div className="program">Full Stack Development with React Native</div>
-            <p>Worked on the Sanchari project as Backend Developer &amp; Workflow Designer, as part of a six-member team.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-  );
-}
+const taskManagerTechnologies = ['Java 17', 'Spring Boot', 'Spring Data JPA', 'H2', 'Maven', 'JUnit 5', 'Mockito'];
+const taskManagerFeatures = [
+  'Create tasks',
+  'Retrieve tasks',
+  'Update tasks',
+  'Delete tasks',
+  'Filter by status',
+  'Validation',
+  'Exception handling',
+  'Layered architecture',
+  'Unit testing',
+];
 
 const certifications = [
   'HackerRank SQL Basic',
@@ -233,7 +219,7 @@ function Certifications() {
   return (
     <section className="section" id="certifications">
       <div className="shell">
-        <SectionHeading index="05" label="Certifications" title="Relevant learning." detail="Certificates listed as provided. Verification destinations have not been supplied." />
+        <SectionHeading index="04" label="Certifications" title="Relevant learning." detail="Certificates listed as provided. Verification destinations have not been supplied." />
         <div className="cert-grid">
           {certifications.map((item, index) => <div className="cert-item" key={item}><span>{item}</span><span className="cert-mark">{String(index + 1).padStart(2, '0')}</span></div>)}
         </div>
@@ -247,7 +233,7 @@ function ProblemSolving() {
   return (
     <section className="section">
       <div className="shell">
-        <SectionHeading index="06" label="Practice" title="Problem solving, in progress." />
+        <SectionHeading index="05" label="Practice" title="Problem solving, in progress." />
         <div className="practice-row">
           <div><h3>Data Structures &amp; Algorithms</h3><p>I practice DSA and programming problems while strengthening core problem-solving fundamentals.</p></div>
           <div className="practice-symbol" aria-hidden="true"><Braces size={20} /></div>
@@ -262,7 +248,7 @@ function Contact() {
     <section className="section" id="contact">
       <div className="shell">
         <div className="contact-box">
-          <div className="eyebrow">07 / Contact</div>
+          <div className="eyebrow">06 / Contact</div>
           <h2>Open to software engineering opportunities.</h2>
           <p>Interested in Java development, backend development, REST APIs, SQL and software engineering roles.</p>
           <div className="contact-options">
@@ -287,14 +273,14 @@ function Home() {
           <div className="fact"><span className="fact-label">Core focus</span><span className="fact-value">Java · Backend · REST APIs · SQL</span></div>
           <div className="fact"><span className="fact-label">Currently strengthening</span><span className="fact-value">Java · OOP · DSA · Networking</span></div>
         </div></div>
-        <About /><Skills /><Projects /><Experience /><Certifications /><ProblemSolving /><Contact />
+        <About /><Skills /><Projects /><Certifications /><ProblemSolving /><Contact />
       </main>
       <Footer />
     </>
   );
 }
 
-function CaseStudy() {
+function usePageMetadata(title: string, descriptionText: string) {
   useEffect(() => {
     const description = document.querySelector<HTMLMetaElement>(
       'meta[name="description"]',
@@ -302,10 +288,9 @@ function CaseStudy() {
     const previousTitle = document.title;
     const previousDescription = description?.content;
 
-    document.title = 'SafeCampus Case Study | Sai Priya Korupolu';
+    document.title = title;
     if (description) {
-      description.content =
-        'A case study of SafeCampus, a campus surveillance concept using computer vision, with its current implementation, planned features, and technology stack.';
+      description.content = descriptionText;
     }
 
     return () => {
@@ -314,7 +299,69 @@ function CaseStudy() {
         description.content = previousDescription;
       }
     };
-  }, []);
+  }, [title, descriptionText]);
+}
+
+function TaskManagerProject() {
+  usePageMetadata(
+    'Task Manager REST API | Sai Priya Korupolu',
+    'A project overview of a task-management REST API, including its provided feature scope and Java, Spring Boot, and database technologies.',
+  );
+
+  return (
+    <>
+      <Header />
+      <main>
+        <section className="case-hero shell">
+          <Link href="/#projects" className="back-link"><ArrowLeft size={14} /> Back to projects</Link>
+          <div className="eyebrow">Project overview · 02</div>
+          <h1 className="case-title">Task Manager REST API</h1>
+          <p className="case-lede">A backend REST API for managing tasks.</p>
+          <div className="case-metadata">
+            <div className="case-meta"><span>Project</span><strong>Task management REST API</strong></div>
+            <div className="case-meta"><span>Technologies</span><strong>{taskManagerTechnologies.join(' · ')}</strong></div>
+            <div className="case-meta"><span>Feature scope</span><strong>Create, retrieve, update, and delete tasks</strong></div>
+          </div>
+        </section>
+        <div className="shell case-layout">
+          <div className="case-content">
+            <section>
+              <div className="eyebrow">01 / Project</div>
+              <h2>Task management through a REST API.</h2>
+              <p>A backend REST API for managing tasks. The provided feature scope includes task operations, status filtering, validation, exception handling, layered architecture, and unit testing.</p>
+            </section>
+            <section>
+              <div className="eyebrow">02 / Features</div>
+              <h2>Specified API capabilities.</h2>
+              <ul>
+                {taskManagerFeatures.map((feature) => <li key={feature}>{feature}</li>)}
+              </ul>
+            </section>
+            <section>
+              <div className="eyebrow">03 / Technologies</div>
+              <h2>Java backend stack.</h2>
+              <p>{taskManagerTechnologies.join(' · ')}</p>
+            </section>
+          </div>
+          <aside className="case-aside">
+            <div className="aside-panel">
+              <h3>Technology stack</h3>
+              <div className="tag-list">{taskManagerTechnologies.map((item) => <span className="tag" key={item}>{item}</span>)}</div>
+              <div className="aside-note"><strong>Repository</strong><br />A repository link has not been provided.</div>
+            </div>
+          </aside>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function CaseStudy() {
+  usePageMetadata(
+    'SafeCampus Case Study | Sai Priya Korupolu',
+    'A case study of SafeCampus, a campus surveillance concept using computer vision, with its current implementation, planned features, and technology stack.',
+  );
 
   return (
     <>
@@ -401,6 +448,7 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/projects/task-manager" component={TaskManagerProject} />
         <Route path="/projects/safecampus" component={CaseStudy} />
         <Route component={NotFound} />
       </Switch>

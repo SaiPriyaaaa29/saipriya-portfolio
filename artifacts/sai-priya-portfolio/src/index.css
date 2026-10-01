@@ -155,11 +155,6 @@ button { font: inherit; }
 .compact-project p { color:#9ca6aa; margin:0; font-size:12px; line-height:1.7; }
 .compact-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:13px; }
 .compact-action { align-self:center; white-space:nowrap; }
-.experience-card { display:grid; grid-template-columns:190px 1fr; gap:40px; padding:30px; border:1px solid rgba(220,230,235,.1); background:rgba(255,255,255,.018); }
-.experience-date { color:#a6d0b9; font:12px var(--app-font-mono); }
-.experience-card h3 { margin:0 0 8px; font-size:19px; font-weight:600; }
-.experience-card .program { color:#bfc7c8; font-size:13px; }
-.experience-card p { color:#9ca6aa; font-size:12px; line-height:1.7; margin:13px 0 0; }
 .cert-grid { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid rgba(220,230,235,.1); }
 .cert-item { padding:19px 20px; min-height:86px; border-right:1px solid rgba(220,230,235,.08); border-bottom:1px solid rgba(220,230,235,.08); display:flex; justify-content:space-between; gap:12px; align-items:center; color:#d1d7d7; font-size:12px; }
 .cert-item:nth-child(4n) { border-right:0; }
@@ -249,7 +244,6 @@ button { font: inherit; }
   .project-side { padding:23px 21px; }
   .compact-project { grid-template-columns:1fr; padding:21px; }
   .compact-action { justify-self:start; }
-  .experience-card { grid-template-columns:1fr; gap:15px; padding:23px; }
   .cert-item { padding:15px 12px; font-size:11px; }
   .practice-row { padding:22px; }
   .contact-box { padding:28px 23px; }
