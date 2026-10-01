@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect } from 'react';
 import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Linkedin, Mail, ScanEye } from 'lucide-react';
+import resumePdfUrl from '../../../attached_assets/SaiPriya_Resume_1790887187001.pdf?url';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -20,11 +21,16 @@ const navItems = [
   ['Contact', '/#contact'],
 ];
 
-function ResumePlaceholder({ className = '', label = 'Download Resume · not provided' }: { className?: string; label?: string }) {
+function ResumeDownload({ className = '', label = 'Download Resume' }: { className?: string; label?: string }) {
   return (
-    <span className={`button button-quiet ${className}`} aria-disabled="true" title="Resume file not provided">
+    <a
+      className={`button button-quiet ${className}`}
+      href={resumePdfUrl}
+      download="SaiPriya_Resume_1790887187001.pdf"
+      title="Download resume PDF"
+    >
       {label}
-    </span>
+    </a>
   );
 }
 
@@ -39,7 +45,7 @@ function Header() {
         <nav className="nav-links" aria-label="Main navigation">
           {navItems.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
         </nav>
-        <div className="nav-actions"><ResumePlaceholder label="Resume · not provided" /></div>
+        <div className="nav-actions"><ResumeDownload label="Resume" /></div>
       </div>
     </header>
   );
@@ -84,7 +90,7 @@ function Hero() {
           <p className="hero-description">B.Tech AI &amp; ML student building practical software solutions with Java, backend technologies, SQL and computer vision.</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#projects">View projects <ArrowDownRight size={15} /></a>
-            <ResumePlaceholder />
+            <ResumeDownload />
           </div>
           <div className="hero-links">
             <a className="text-link" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> GitHub <ArrowUpRight size={12} /></a>
