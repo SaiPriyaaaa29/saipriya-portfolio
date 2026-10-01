@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from 'react';
+import { type MouseEvent, type ReactNode, useEffect } from 'react';
 import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Linkedin, Mail, ScanEye } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -22,12 +22,46 @@ const navItems = [
 ];
 
 function ResumeDownload({ className = '', label = 'Download Resume' }: { className?: string; label?: string }) {
+  const handleDownload = async (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+      return;
+    }
+
+    event.preventDefault();
+
+    try {
+      const response = await fetch(resumePdfUrl);
+      if (!response.ok) {
+        throw new Error(`Resume download failed with status ${response.status}`);
+      }
+
+      const resumeBlob = await response.blob();
+      if (resumeBlob.type !== 'application/pdf') {
+        throw new Error('Resume download returned an unexpected file type');
+      }
+
+      const objectUrl = URL.createObjectURL(resumeBlob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = objectUrl;
+      downloadLink.download = 'SaiPriya_Resume_1790887187001.pdf';
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      downloadLink.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 30_000);
+    } catch (error) {
+      console.error('Resume download failed:', error);
+      window.alert('The resume could not be downloaded. Please try again.');
+    }
+  };
+
   return (
     <a
       className={`button button-quiet ${className}`}
       href={resumePdfUrl}
       download="SaiPriya_Resume_1790887187001.pdf"
       title="Download resume PDF"
+      onClick={handleDownload}
     >
       {label}
     </a>
@@ -79,6 +113,44 @@ function SectionHeading({ index, label, title, detail }: { index: string; label:
   );
 }
 
+function ScrollReveal() {
+  useEffect(() => {
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-scroll-reveal]'),
+    );
+
+    if (
+      targets.length === 0 ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !('IntersectionObserver' in window)
+    ) {
+      return;
+    }
+
+    document.documentElement.classList.add('scroll-reveal-ready');
+    const observer = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            currentObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -32px 0px' },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove('scroll-reveal-ready');
+    };
+  }, []);
+
+  return null;
+}
+
 function Hero() {
   return (
     <section className="hero shell" id="home">
@@ -118,7 +190,7 @@ function Hero() {
 
 function About() {
   return (
-    <section className="section" id="about">
+    <section className="section" id="about" data-scroll-reveal>
       <div className="shell">
         <SectionHeading index="01" label="Profile" title="Building toward the backend." detail="A focused foundation in software engineering, backed by practical project work and a learning mindset." />
         <div className="about-grid">
@@ -145,12 +217,17 @@ const skillGroups = [
 
 function Skills() {
   return (
-    <section className="section" id="skills">
+    <section className="section" id="skills" data-scroll-reveal>
       <div className="shell">
         <SectionHeading index="02" label="Toolkit" title="Technical skills." detail="A practical toolkit across Java backend development, data and computer vision." />
         <div className="skills-grid">
           {skillGroups.map((group) => (
-            <div className="skill-group" key={group.title}>
+            <div
+              className="skill-group"
+              key={group.title}
+              data-scroll-reveal
+              style={{ transitionDelay: `${skillGroups.indexOf(group) * 60}ms` }}
+            >
               <h3>{group.title}</h3>
               <div className="skill-list">{group.items.map((item) => <span key={item}>{item}</span>)}</div>
             </div>
@@ -163,11 +240,11 @@ function Skills() {
 
 function Projects() {
   return (
-    <section className="section" id="projects">
+    <section className="section" id="projects" data-scroll-reveal>
       <div className="shell">
         <SectionHeading index="03" label="Selected work" title="Projects, built with purpose." detail="Project work spanning AI-assisted campus safety concepts and Java backend fundamentals." />
         <div className="project-stack">
-          <article className="project-card">
+          <article className="project-card" data-scroll-reveal>
             <div className="project-main">
               <span className="project-number">01 / AI &amp; COMPUTER VISION</span>
               <h3>SafeCampus</h3>
@@ -183,7 +260,7 @@ function Projects() {
               <div className="status-note"><ScanEye size={15} /><span><b>In progress:</b> UI/design and AI detection workflow. Flask backend planned / in development.</span></div>
             </div>
           </article>
-          <article className="compact-project">
+          <article className="compact-project" data-scroll-reveal style={{ transitionDelay: '80ms' }}>
             <div>
               <span className="project-number">02 / JAVA BACKEND</span>
               <h3>Task Manager REST API</h3>
@@ -225,11 +302,11 @@ const certifications = [
 
 function Certifications() {
   return (
-    <section className="section" id="certifications">
+    <section className="section" id="certifications" data-scroll-reveal>
       <div className="shell">
         <SectionHeading index="04" label="Certifications" title="Relevant learning." detail="Certificates listed as provided. Verification destinations have not been supplied." />
         <div className="cert-grid">
-          {certifications.map((item, index) => <div className="cert-item" key={item}><span>{item}</span><span className="cert-mark">{String(index + 1).padStart(2, '0')}</span></div>)}
+          {certifications.map((item, index) => <div className="cert-item" key={item} data-scroll-reveal style={{ transitionDelay: `${index * 40}ms` }}><span>{item}</span><span className="cert-mark">{String(index + 1).padStart(2, '0')}</span></div>)}
         </div>
         <div className="cert-caption">Verification links can be added when available.</div>
       </div>
@@ -239,7 +316,7 @@ function Certifications() {
 
 function ProblemSolving() {
   return (
-    <section className="section">
+    <section className="section" data-scroll-reveal>
       <div className="shell">
         <SectionHeading index="05" label="Practice" title="Problem solving, in progress." />
         <div className="practice-row">
@@ -253,7 +330,7 @@ function ProblemSolving() {
 
 function Contact() {
   return (
-    <section className="section" id="contact">
+    <section className="section" id="contact" data-scroll-reveal>
       <div className="shell">
         <div className="contact-box">
           <div className="eyebrow">06 / Contact</div>
@@ -273,6 +350,7 @@ function Contact() {
 function Home() {
   return (
     <>
+      <ScrollReveal />
       <Header />
       <main>
         <Hero />
@@ -318,9 +396,10 @@ function TaskManagerProject() {
 
   return (
     <>
+      <ScrollReveal />
       <Header />
       <main>
-        <section className="case-hero shell">
+        <section className="case-hero shell" data-scroll-reveal>
           <Link href="/#projects" className="back-link"><ArrowLeft size={14} /> Back to projects</Link>
           <div className="eyebrow">Project overview · 02</div>
           <h1 className="case-title">Task Manager REST API</h1>
@@ -333,25 +412,25 @@ function TaskManagerProject() {
         </section>
         <div className="shell case-layout">
           <div className="case-content">
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">01 / Project</div>
               <h2>Task management through a REST API.</h2>
               <p>A backend REST API for managing tasks. The provided feature scope includes task operations, status filtering, validation, exception handling, layered architecture, and unit testing.</p>
             </section>
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">02 / Features</div>
               <h2>Specified API capabilities.</h2>
               <ul>
                 {taskManagerFeatures.map((feature) => <li key={feature}>{feature}</li>)}
               </ul>
             </section>
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">03 / Technologies</div>
               <h2>Java backend stack.</h2>
               <p>{taskManagerTechnologies.join(' · ')}</p>
             </section>
           </div>
-          <aside className="case-aside">
+          <aside className="case-aside" data-scroll-reveal>
             <div className="aside-panel">
               <h3>Technology stack</h3>
               <div className="tag-list">{taskManagerTechnologies.map((item) => <span className="tag" key={item}>{item}</span>)}</div>
@@ -373,9 +452,10 @@ function CaseStudy() {
 
   return (
     <>
+      <ScrollReveal />
       <Header />
       <main>
-        <section className="case-hero shell">
+        <section className="case-hero shell" data-scroll-reveal>
           <Link href="/#projects" className="back-link"><ArrowLeft size={14} /> Back to projects</Link>
           <div className="eyebrow">Project case study · 01</div>
           <h1 className="case-title">SafeCampus — AI-Powered Campus Surveillance</h1>
@@ -391,18 +471,18 @@ function CaseStudy() {
         </section>
         <div className="shell case-layout">
           <div className="case-content">
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">01 / Problem</div>
               <h2>Reviewing footage after the fact is not immediate.</h2>
               <p>Campus CCTV footage can require later review to identify objects or suspicious events. SafeCampus is designed around the idea of analyzing footage and generating immediate alerts, rather than relying only on recorded footage review.</p>
             </section>
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">02 / Solution</div>
               <h2>Bring detection and event visibility into one workflow.</h2>
               <p>The concept combines an AI detection workflow with a user interface for alerts and event history. It is intended to identify predefined objects and events in CCTV footage and make relevant activity easier to surface.</p>
               <p>This project is a work in progress; the listed capabilities describe its intended feature scope and are not all claimed as fully implemented.</p>
             </section>
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">03 / Features</div>
               <h2>Planned detection and response capabilities.</h2>
               <ul>
@@ -415,19 +495,19 @@ function CaseStudy() {
                 <li>Event history</li>
               </ul>
             </section>
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">04 / Current implementation</div>
               <h2>UI, design and AI detection workflow.</h2>
               <p>The current project includes the UI/design and AI detection workflow. The Flask backend is planned / in development and is not presented as fully implemented.</p>
               <p>The project is built around Python, OpenCV and YOLO for AI/computer vision, with Flutter and SQLite also included in its technology stack.</p>
             </section>
-            <section>
+            <section data-scroll-reveal>
               <div className="eyebrow">05 / Future improvements</div>
               <h2>Continue toward a connected campus-safety workflow.</h2>
               <p>Planned development includes the Flask backend and continued work toward the listed detection, alert-generation and event-history capabilities.</p>
             </section>
           </div>
-          <aside className="case-aside">
+          <aside className="case-aside" data-scroll-reveal>
             <div className="aside-panel">
               <h3>Technology stack</h3>
               <div className="tag-list">{['Python', 'OpenCV', 'YOLO', 'Flutter', 'SQLite'].map((item) => <span className="tag" key={item}>{item}</span>)}</div>
@@ -436,7 +516,7 @@ function CaseStudy() {
             </div>
           </aside>
         </div>
-        <div className="shell"><div className="case-footer">
+        <div className="shell"><div className="case-footer" data-scroll-reveal>
           <div><h3>Explore the project repository</h3><p>GitHub repository for SafeCampus.</p></div>
           <a className="button button-primary" href={githubUrl} target="_blank" rel="noreferrer">Open GitHub <ArrowUpRight size={13} /></a>
         </div></div>

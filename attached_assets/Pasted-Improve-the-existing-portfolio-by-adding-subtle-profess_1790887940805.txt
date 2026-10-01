@@ -1,0 +1,71 @@
+Improve the existing portfolio by adding subtle, professional motion and scroll animations.
+
+IMPORTANT:
+
+* Do NOT redesign the website.
+* Do NOT change the existing background.
+* Do NOT add landscape images, 3D backgrounds, particles, floating objects, or futuristic AI visuals.
+* Keep the existing colors, typography, layout, cards, navigation, and overall visual identity.
+* The goal is to make the existing website feel more polished and manually designed, not more flashy.
+
+Add the following interactions:
+
+1. HERO SECTION
+
+* When the page first loads, animate the hero content with a subtle fade-in and slight upward movement.
+* Animate the heading, description, and buttons with a small staggered delay.
+* Keep the animation fast and elegant.
+
+2. NAVIGATION
+
+* Use smooth scrolling when clicking navigation links.
+* Add a subtle transition when hovering over navigation items.
+* Do not make the navigation overly animated.
+
+3. SECTION REVEAL
+
+* When each section enters the viewport, smoothly fade it in and move it upward slightly.
+* Use Intersection Observer or an equivalent lightweight approach.
+* Do not animate everything continuously.
+* Each section should animate only when it becomes visible.
+
+4. SKILLS
+
+* Make skill groups appear with a subtle staggered animation.
+* Keep the movement small and professional.
+
+5. PROJECTS
+
+* Make project cards smoothly fade and slide upward when they enter the viewport.
+* Add a very subtle hover interaction when the cursor moves over a project card.
+* Do not make cards rotate, bounce, or dramatically scale.
+
+6. PROJECT DETAILS
+
+* If project details open on the same page or through a project view, use a smooth transition instead of an abrupt appearance.
+
+7. BUTTONS
+
+* Add subtle hover and active states to buttons.
+* Keep the existing button design.
+* Do not use excessive glowing effects.
+
+8. CERTIFICATIONS
+
+* Add a small staggered reveal animation when certification cards become visible.
+
+9. REDUCED MOTION
+
+* Respect the user's `prefers-reduced-motion` accessibility setting.
+* If reduced motion is enabled, disable or minimize animations.
+
+10. PERFORMANCE
+
+* Keep animations lightweight and smooth.
+* Prefer CSS transitions/animations and Intersection Observer.
+* Avoid unnecessary animation libraries unless they are already being used.
+* Do not continuously animate elements after they have appeared.
+
+The final result should feel like a professionally hand-crafted developer portfolio where sections naturally reveal themselves as the user scrolls, rather than a static page.
+
+Keep the existing portfolio content exactly as it is.
