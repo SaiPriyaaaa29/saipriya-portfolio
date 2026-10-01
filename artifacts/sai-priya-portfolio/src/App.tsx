@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect } from 'react';
-import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Mail, ScanEye } from 'lucide-react';
+import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Linkedin, Mail, ScanEye } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -9,6 +9,8 @@ import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
 const githubUrl = 'https://github.com/yakshala/safeCampus';
+const linkedinUrl = 'https://www.linkedin.com/in/saipriya-korupolu-5672a936b/?isSelfProfile=true';
+const emailAddress = 'saipriyakorupolu@gmail.com';
 const navItems = [
   ['Home', '/#home'],
   ['About', '/#about'],
@@ -51,8 +53,8 @@ function Footer() {
         <span className="footer-title">Java Developer | Backend &amp; REST APIs | AI &amp; ML</span>
         <div className="hero-links" style={{ margin: 0 }}>
           <a className="text-link" href={githubUrl} target="_blank" rel="noreferrer"><Github size={13} /> GitHub</a>
-          <span className="placeholder-link" title="LinkedIn URL not provided">LinkedIn · not provided</span>
-          <span className="placeholder-link" title="Email address not provided">Email · not provided</span>
+          <a className="text-link" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={13} /> LinkedIn</a>
+          <a className="text-link" href={`mailto:${emailAddress}`}><Mail size={13} /> Email</a>
         </div>
       </div>
     </footer>
@@ -86,8 +88,8 @@ function Hero() {
           </div>
           <div className="hero-links">
             <a className="text-link" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> GitHub <ArrowUpRight size={12} /></a>
-            <span className="placeholder-link">LinkedIn · not provided</span>
-            <span className="placeholder-link">Email · not provided</span>
+            <a className="text-link" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={14} /> LinkedIn <ArrowUpRight size={12} /></a>
+            <a className="text-link" href={`mailto:${emailAddress}`}><Mail size={14} /> Email</a>
           </div>
         </div>
         <div className="hero-visual" aria-hidden="true">
@@ -253,8 +255,8 @@ function Contact() {
           <p>Interested in Java development, backend development, REST APIs, SQL and software engineering roles.</p>
           <div className="contact-options">
             <a className="button button-quiet" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> GitHub <ArrowUpRight size={12} /></a>
-            <span className="contact-placeholder"><ArrowUpRight size={12} /> LinkedIn URL not provided</span>
-            <span className="contact-placeholder"><Mail size={13} /> Email address not provided</span>
+            <a className="button button-quiet" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={14} /> LinkedIn <ArrowUpRight size={12} /></a>
+            <a className="button button-quiet" href={`mailto:${emailAddress}`}><Mail size={14} /> Email</a>
           </div>
         </div>
       </div>
