@@ -1,0 +1,361 @@
+Create a professional personal portfolio website for me as an engineering student applying for software engineering, Java developer, and backend developer fresher roles.
+
+IMPORTANT:
+
+* Use ONLY the information provided below.
+* Do not invent work experience, achievements, technologies, projects, job titles, statistics, or skills.
+* Do not add unnecessary sections or generic filler content.
+* The website should feel like a serious software engineer's portfolio, not a school/college template.
+* Keep the content concise and recruiter-friendly.
+* Make the website fully responsive for desktop, tablet, and mobile.
+
+## MY PROFILE
+
+Name: Sai Priya Korupolu
+
+Education:
+B.Tech in Artificial Intelligence & Machine Learning
+Aditya College of Engineering and Technology
+2023–2027
+CGPA: 8.24
+
+Career focus:
+
+* Java Development
+* Backend Development
+* REST APIs
+* SQL
+* Data Structures & Algorithms
+* Software Engineering
+
+I am currently strengthening my Java, OOP, DSA, SQL, computer networking and backend development fundamentals.
+
+## TECHNICAL SKILLS
+
+Languages:
+
+* Java
+* Python
+* SQL
+* C
+* Dart
+
+Backend:
+
+* Java
+* Spring Boot
+* REST APIs
+* Spring Data JPA
+* Hibernate/JPA
+* Maven
+
+Databases:
+
+* SQL
+* MongoDB
+* SQLite
+* H2
+
+AI / Computer Vision:
+
+* Python
+* OpenCV
+* YOLO
+
+Tools:
+
+* Git
+* GitHub
+* Postman
+* VS Code
+* Android Studio
+
+Do not display fake skill percentages or proficiency bars.
+
+## PROJECTS
+
+### 1. SafeCampus
+
+Title:
+SafeCampus — AI-Powered Campus Surveillance
+
+Technologies:
+Python, OpenCV, YOLO, Flutter, SQLite
+
+Description:
+An AI-powered campus surveillance concept designed to analyze CCTV footage and identify predefined objects and suspicious events, with the goal of providing immediate alerts instead of relying only on reviewing recorded footage later.
+
+Features to present:
+
+* Object detection
+* Suspicious-event detection
+* Unauthorized-access detection
+* Face-recognition events
+* Overcrowding detection
+* Alert generation
+* Event history
+
+Important project status:
+The current project includes the UI/design and AI detection workflow. The Flask backend is planned/in development and should NOT be presented as fully implemented.
+
+GitHub:
+https://github.com/yakshala/safeCampus
+
+Create a detailed project case-study section/page containing:
+
+* Problem
+* Solution
+* Technologies
+* Features
+* Current implementation
+* Future improvements
+* GitHub button
+
+Do not claim that every planned feature is already fully implemented.
+
+### 2. Task Manager REST API
+
+Create a project entry for my Java backend project.
+
+Technologies:
+Java 17, Spring Boot, Spring Data JPA, H2, Maven, JUnit 5, Mockito
+
+Concept:
+A backend REST API for managing tasks.
+
+Features:
+
+* Create tasks
+* Retrieve tasks
+* Update tasks
+* Delete tasks
+* Filter tasks by status
+* Validation
+* Exception handling
+* Layered architecture
+* Unit testing
+
+Do not invent deployment information, performance numbers, users, or production usage.
+
+If a GitHub URL is not provided, do not create a fake link. Show the project without a GitHub button until I add the real repository.
+
+### 3. Sanchari
+
+Project developed during my Technical Hub Full Stack Development internship/program.
+
+Program:
+Full Stack Development with React Native
+
+My role:
+Backend Developer & Workflow Designer
+
+Team:
+Six-member team
+
+Do not invent specific features or technologies beyond the information provided here.
+
+Leave a clear placeholder where I can later add the GitHub repository and project details.
+
+## EXPERIENCE
+
+### Technical Hub — Full Stack Development Program / Internship
+
+2026
+
+Program:
+Full Stack Development with React Native
+
+Project:
+Sanchari
+
+Role:
+Backend Developer & Workflow Designer
+
+Team:
+Six members
+
+Keep this section concise.
+
+## CERTIFICATIONS
+
+Display only relevant certifications in a clean grid/list.
+
+Include:
+
+* HackerRank SQL Basic
+* HackerRank SQL Intermediate
+* HackerRank Python Basic
+* GitHub Foundations
+* Claude Code in Action
+* Intro to MCP
+* Claude with Anthropic API
+* Intro to Agent Skills
+
+Do not invent certificate IDs or verification URLs.
+
+Allow verification links to be added later.
+
+## PROBLEM SOLVING
+
+Create a small section mentioning that I practice Data Structures & Algorithms and programming problems.
+
+Do NOT invent a LeetCode rating, CodeChef rating, ranking, contest achievement, or number of solved problems.
+
+## ABOUT ME
+
+Write a concise professional paragraph based only on my information:
+
+I am a B.Tech AI & ML student interested in software engineering, Java backend development and practical problem solving. I enjoy building applications and working with APIs, databases and AI-based solutions. I am currently strengthening my Java, DSA, SQL, networking and backend development skills while preparing for software engineering opportunities.
+
+Keep this natural and avoid exaggerated claims.
+
+## HERO SECTION
+
+Create a strong but simple hero section.
+
+Name:
+Sai Priya Korupolu
+
+Headline:
+Java Developer | Backend & REST APIs | AI & ML
+
+Supporting text:
+B.Tech AI & ML student building practical software solutions with Java, backend technologies, SQL and computer vision.
+
+Buttons:
+
+* View Projects
+* Download Resume
+
+Add:
+
+* GitHub
+* LinkedIn
+* Email
+
+For LinkedIn and Email, create placeholders if I have not provided the actual URLs.
+
+Do NOT invent URLs.
+
+## NAVIGATION
+
+Use a simple navigation bar:
+
+Home
+About
+Skills
+Projects
+Experience
+Certifications
+Contact
+
+Include a Resume button in the navigation.
+
+## DESIGN
+
+Use a modern, premium, minimal software-engineering aesthetic.
+
+Preferred style:
+
+* Dark professional theme
+* Black/charcoal background
+* White/light typography
+* One subtle accent color
+* Clean cards
+* Good spacing
+* Modern typography
+* Subtle gradients
+* Minimal animations
+* Smooth scrolling
+* Professional hover effects
+
+Avoid:
+
+* Excessive animations
+* 3D objects
+* Cartoon illustrations
+* Skill percentage bars
+* Excessive neon colors
+* Stock photos
+* Generic developer illustrations
+* Huge blocks of text
+* Unnecessary sections
+
+The website should look appropriate when a recruiter opens it.
+
+## PROJECT DESIGN
+
+Make the Projects section the strongest section after the hero.
+
+Each project card should show:
+
+* Project name
+* Short description
+* Technologies
+* Key features
+* View Project button
+
+The SafeCampus project should have a detailed case-study view.
+
+For the Java Task Manager API, emphasize backend concepts such as:
+REST APIs, Spring Boot, JPA, validation, exception handling and layered architecture.
+
+## RESUME
+
+Add a clearly visible "Download Resume" button.
+
+Initially create a placeholder file/link area where I can upload my resume later.
+
+Do not generate a fake resume PDF.
+
+## CONTACT
+
+Keep contact simple:
+
+* Email
+* LinkedIn
+* GitHub
+
+Add a simple "Open to Software Engineering Opportunities" message.
+
+Do not add a contact form unless it is simple and functional.
+
+## FOOTER
+
+Use:
+
+© 2026 Sai Priya Korupolu
+
+Java Developer | Backend & REST APIs | AI & ML
+
+GitHub | LinkedIn | Email
+
+## TECHNICAL REQUIREMENTS
+
+Build a clean, maintainable responsive website.
+
+Requirements:
+
+* Mobile responsive
+* Fast loading
+* Accessible buttons and navigation
+* Semantic HTML
+* Good SEO metadata
+* Proper page title
+* Favicon placeholder
+* No broken links
+* No fake information
+* No unnecessary dependencies
+* Clean component structure
+
+Before finishing, check the entire website for:
+
+1. Spelling errors
+2. Broken navigation
+3. Mobile responsiveness
+4. Missing sections
+5. Incorrect claims
+6. Placeholder links that could be mistaken for real links
+7. Visual consistency
+
+Make the final result look like a polished portfolio for a serious engineering student applying for software engineering and Java/backend roles.

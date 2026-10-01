@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Sai Priya Korupolu — Portfolio"
+description = "A recruiter-focused personal portfolio for Sai Priya Korupolu, an AI & ML engineering student pursuing Java, backend, and software engineering roles. Features verified profile details, projects, certifications, experience, and clearly marked placeholders for missing links and resume."
+version = "1.0.0"
+id = "artifacts/sai-priya-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25997
+
+[services.development]
+run = "pnpm --filter @workspace/sai-priya-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sai-priya-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/sai-priya-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25997"
+BASE_PATH = "/"
