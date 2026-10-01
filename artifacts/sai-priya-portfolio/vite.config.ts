@@ -1,7 +1,8 @@
+import { createReadStream, readFileSync, statSync } from 'node:fs';
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
@@ -27,11 +28,65 @@ if (!basePath) {
   );
 }
 
+const resumeFileName = 'SaiPriya_Resume_1790887187001.pdf';
+const resumeFilePath = path.resolve(
+  import.meta.dirname,
+  '..',
+  '..',
+  'attached_assets',
+  resumeFileName,
+);
+const normalizedBasePath = basePath.endsWith('/') ? basePath : `${basePath}/`;
+const resumeUrlPath = `${normalizedBasePath}resume.pdf`;
+const resumeFileSize = statSync(resumeFilePath).size;
+
+function resumeDownloadPlugin(): Plugin {
+  return {
+    name: 'portfolio-resume-download',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.split('?')[0] !== resumeUrlPath) {
+          return next();
+        }
+
+        if (req.method !== 'GET' && req.method !== 'HEAD') {
+          res.statusCode = 405;
+          res.setHeader('Allow', 'GET, HEAD');
+          return res.end();
+        }
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Length', String(resumeFileSize));
+        res.setHeader(
+          'Content-Disposition',
+          `attachment; filename="${resumeFileName}"`,
+        );
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+
+        if (req.method === 'HEAD') {
+          return res.end();
+        }
+
+        createReadStream(resumeFilePath).on('error', next).pipe(res);
+      });
+    },
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'resume.pdf',
+        source: readFileSync(resumeFilePath),
+      });
+    },
+  };
+}
+
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
     tailwindcss(),
+    resumeDownloadPlugin(),
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== 'production' &&
     process.env.REPL_ID !== undefined

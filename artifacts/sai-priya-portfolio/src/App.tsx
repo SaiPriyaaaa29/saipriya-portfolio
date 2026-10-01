@@ -1,6 +1,5 @@
 import { type ReactNode, useEffect } from 'react';
 import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Linkedin, Mail, ScanEye } from 'lucide-react';
-import resumePdfUrl from '../../../attached_assets/SaiPriya_Resume_1790887187001.pdf?url';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -12,6 +11,7 @@ const queryClient = new QueryClient();
 const githubUrl = 'https://github.com/yakshala/safeCampus';
 const linkedinUrl = 'https://www.linkedin.com/in/saipriya-korupolu-5672a936b/?isSelfProfile=true';
 const emailAddress = 'saipriyakorupolu@gmail.com';
+const resumePdfUrl = `${import.meta.env.BASE_URL}resume.pdf`;
 const navItems = [
   ['Home', '/#home'],
   ['About', '/#about'],

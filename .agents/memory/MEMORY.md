@@ -1,0 +1,1 @@
+- [Portfolio file downloads](portfolio-file-downloads.md) — route static downloads through the artifact, not Vite's `/@fs` paths, which Replit preview blocks.
