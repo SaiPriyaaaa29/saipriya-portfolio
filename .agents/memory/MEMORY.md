@@ -1,1 +1,2 @@
 - [Portfolio file downloads](portfolio-file-downloads.md) — route static downloads through the artifact, not Vite's `/@fs` paths, which Replit preview blocks.
+- [Scroll-reveal verification](scroll-reveal-verification.md) — full-page preview screenshots do not scroll the page to trigger IntersectionObserver reveals.

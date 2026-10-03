@@ -1,6 +1,7 @@
-import { type MouseEvent, type ReactNode, useEffect } from 'react';
+import { type CSSProperties, type MouseEvent, type ReactNode, useEffect, useState } from 'react';
 import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Linkedin, Mail, ScanEye } from 'lucide-react';
 import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import { flushSync } from 'react-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -68,16 +69,126 @@ function ResumeDownload({ className = '', label = 'Download Resume' }: { classNa
   );
 }
 
+function RouteTransitionLink({
+  href,
+  className,
+  children,
+  ...linkProps
+}: {
+  href: string;
+  className?: string;
+  children: ReactNode;
+  'data-scroll-reveal'?: string;
+  style?: CSSProperties;
+}) {
+  const [, navigate] = useLocation();
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+    const transitionDocument = document as Document & {
+      startViewTransition?: (updateCallback: () => void) => unknown;
+    };
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const updatePage = () => flushSync(() => navigate(href));
+
+    if (!reducedMotion && transitionDocument.startViewTransition) {
+      try {
+        transitionDocument.startViewTransition(updatePage);
+      } catch {
+        updatePage();
+      }
+      return;
+    }
+
+    if (reducedMotion) {
+      navigate(href);
+      return;
+    }
+
+    document.documentElement.classList.add('route-transition-exiting');
+    window.setTimeout(() => {
+      updatePage();
+      document.documentElement.classList.remove('route-transition-exiting');
+    }, 170);
+  };
+
+  return <Link {...linkProps} className={className} href={href} onClick={handleClick}><>{children}</></Link>;
+}
+
 function Header() {
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const targets = navItems
+      .map(([, href]) => {
+        const hashIndex = href.indexOf('#');
+        return hashIndex === -1 ? null : document.getElementById(href.slice(hashIndex + 1));
+      })
+      .filter((target): target is HTMLElement => target instanceof HTMLElement);
+
+    if (targets.length === 0 || !('IntersectionObserver' in window)) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const nextSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+
+        if (nextSection) {
+          setActiveSection(nextSection.target.id);
+        }
+      },
+      { rootMargin: '-80px 0px -55% 0px', threshold: [0, 0.1, 0.25, 0.5] },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let wasScrolled = window.scrollY > 12;
+    setIsScrolled(wasScrolled);
+
+    const updateScrolledState = () => {
+      const isNowScrolled = window.scrollY > 12;
+      if (isNowScrolled !== wasScrolled) {
+        wasScrolled = isNowScrolled;
+        setIsScrolled(isNowScrolled);
+      }
+    };
+
+    window.addEventListener('scroll', updateScrolledState, { passive: true });
+    return () => window.removeEventListener('scroll', updateScrolledState);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${isScrolled ? ' is-scrolled' : ''}`}>
       <div className="shell nav-inner">
         <a className="brand" href="/" aria-label="Sai Priya Korupolu home">
           <span className="brand-mark">SP</span>
           <span>Sai Priya Korupolu</span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          {navItems.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
+          {navItems.map(([label, href]) => {
+            const sectionId = href.slice(href.indexOf('#') + 1);
+            return (
+              <a
+                key={label}
+                href={href}
+                aria-current={activeSection === sectionId ? 'location' : undefined}
+                onClick={() => setActiveSection(sectionId)}
+              >
+                {label}
+              </a>
+            );
+          })}
         </nav>
         <div className="nav-actions">
           <div className="nav-social-links" role="group" aria-label="Social and contact links">
@@ -106,11 +217,11 @@ function Footer() {
 function SectionHeading({ index, label, title, detail }: { index: string; label: string; title: string; detail?: string }) {
   return (
     <div className="section-heading">
-      <div>
+      <div data-scroll-reveal="heading">
         <div className="eyebrow">{index} / {label}</div>
         <h2>{title}</h2>
       </div>
-      {detail && <p>{detail}</p>}
+      {detail && <p data-scroll-reveal="supporting" style={{ transitionDelay: '100ms' }}>{detail}</p>}
     </div>
   );
 }
@@ -139,7 +250,7 @@ function ScrollReveal() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -32px 0px' },
+      { threshold: 0.12, rootMargin: '0px 0px -44px 0px' },
     );
 
     targets.forEach((target) => observer.observe(target));
@@ -187,12 +298,12 @@ function Hero() {
 
 function About() {
   return (
-    <section className="section" id="about" data-scroll-reveal>
+    <section className="section" id="about">
       <div className="shell">
         <SectionHeading index="01" label="Profile" title="Building toward the backend." detail="A focused foundation in software engineering, backed by practical project work and a learning mindset." />
         <div className="about-grid">
-          <p className="about-copy">I am a <strong>B.Tech AI &amp; ML student</strong> interested in software engineering, Java backend development and practical problem solving. I enjoy building applications and working with APIs, databases and AI-based solutions. I am currently strengthening my Java, DSA, SQL, networking and backend development skills while preparing for software engineering opportunities.</p>
-          <div className="education">
+          <p className="about-copy" data-scroll-reveal="content" style={{ transitionDelay: '200ms' }}>I am a <strong>B.Tech AI &amp; ML student</strong> interested in software engineering, Java backend development and practical problem solving. I enjoy building applications and working with APIs, databases and AI-based solutions. I am currently strengthening my Java, DSA, SQL, networking and backend development skills while preparing for software engineering opportunities.</p>
+          <div className="education" data-scroll-reveal="card" style={{ transitionDelay: '300ms' }}>
             <div className="education-top"><span>EDUCATION</span><span>2023 — 2027</span></div>
             <h3>B.Tech in Artificial Intelligence &amp; Machine Learning</h3>
             <p>Aditya College of Engineering and Technology</p>
@@ -214,19 +325,29 @@ const skillGroups = [
 
 function Skills() {
   return (
-    <section className="section" id="skills" data-scroll-reveal>
+    <section className="section" id="skills">
       <div className="shell">
         <SectionHeading index="02" label="Toolkit" title="Technical skills." detail="A practical toolkit across Java backend development, data and computer vision." />
         <div className="skills-grid">
-          {skillGroups.map((group) => (
+          {skillGroups.map((group, groupIndex) => (
             <div
               className="skill-group"
               key={group.title}
-              data-scroll-reveal
-              style={{ transitionDelay: `${skillGroups.indexOf(group) * 60}ms` }}
+              data-scroll-reveal="card"
+              style={{ transitionDelay: `${190 + groupIndex * 90}ms` }}
             >
               <h3>{group.title}</h3>
-              <div className="skill-list">{group.items.map((item) => <span key={item}>{item}</span>)}</div>
+              <div className="skill-list">
+                {group.items.map((item, itemIndex) => (
+                  <span
+                    key={item}
+                    data-scroll-reveal="skill-item"
+                    style={{ transitionDelay: `${220 + groupIndex * 90 + itemIndex * 28}ms` }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -237,16 +358,16 @@ function Skills() {
 
 function Projects() {
   return (
-    <section className="section" id="projects" data-scroll-reveal>
+    <section className="section" id="projects">
       <div className="shell">
         <SectionHeading index="03" label="Selected work" title="Projects, built with purpose." detail="Project work spanning AI-assisted campus safety concepts and Java backend fundamentals." />
         <div className="project-stack">
-          <article className="project-card" data-scroll-reveal>
+          <article className="project-card" data-scroll-reveal="card" style={{ transitionDelay: '220ms' }}>
             <div className="project-main">
               <span className="project-number">01 / AI &amp; COMPUTER VISION</span>
               <h3>SafeCampus</h3>
               <p>An AI-powered campus surveillance concept designed to analyze CCTV footage and identify predefined objects and suspicious events—supporting immediate alerts over only reviewing recordings later.</p>
-              <Link className="button button-primary" href="/projects/safecampus">View Project <ArrowRight size={14} /></Link>
+              <RouteTransitionLink className="button button-primary" href="/projects/safecampus">View Project <ArrowRight size={14} /></RouteTransitionLink>
             </div>
             <div className="project-side">
               <div>
@@ -257,7 +378,7 @@ function Projects() {
               <div className="status-note"><ScanEye size={15} /><span><b>In progress:</b> UI/design and AI detection workflow. Flask backend planned / in development.</span></div>
             </div>
           </article>
-          <article className="compact-project" data-scroll-reveal style={{ transitionDelay: '80ms' }}>
+          <article className="compact-project" data-scroll-reveal="card" style={{ transitionDelay: '320ms' }}>
             <div>
               <span className="project-number">02 / JAVA BACKEND</span>
               <h3>Task Manager REST API</h3>
@@ -265,7 +386,7 @@ function Projects() {
               <div className="compact-tags">{taskManagerTechnologies.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
               <div className="feature-list compact-feature-list">{taskManagerFeatures.map((feature) => <span key={feature}>{feature}</span>)}</div>
             </div>
-            <Link className="button button-primary compact-action" href="/projects/task-manager">View Project <ArrowRight size={14} /></Link>
+            <RouteTransitionLink className="button button-primary compact-action" href="/projects/task-manager">View Project <ArrowRight size={14} /></RouteTransitionLink>
           </article>
         </div>
       </div>
@@ -299,11 +420,11 @@ const certifications = [
 
 function Certifications() {
   return (
-    <section className="section" id="certifications" data-scroll-reveal>
+    <section className="section" id="certifications">
       <div className="shell">
         <SectionHeading index="04" label="Certifications" title="Relevant learning." detail="Certificates listed as provided. Verification destinations have not been supplied." />
         <div className="cert-grid">
-          {certifications.map((item, index) => <div className="cert-item" key={item} data-scroll-reveal style={{ transitionDelay: `${index * 40}ms` }}><span>{item}</span><span className="cert-mark">{String(index + 1).padStart(2, '0')}</span></div>)}
+          {certifications.map((item, index) => <div className="cert-item" key={item} data-scroll-reveal="card" style={{ transitionDelay: `${220 + index * 80}ms` }}><span>{item}</span><span className="cert-mark">{String(index + 1).padStart(2, '0')}</span></div>)}
         </div>
         <div className="cert-caption">Verification links can be added when available.</div>
       </div>
@@ -313,10 +434,10 @@ function Certifications() {
 
 function ProblemSolving() {
   return (
-    <section className="section" data-scroll-reveal>
+    <section className="section">
       <div className="shell">
         <SectionHeading index="05" label="Practice" title="Problem solving, in progress." />
-        <div className="practice-row">
+        <div className="practice-row" data-scroll-reveal="card" style={{ transitionDelay: '200ms' }}>
           <div><h3>Data Structures &amp; Algorithms</h3><p>I practice DSA and programming problems while strengthening core problem-solving fundamentals.</p></div>
           <div className="practice-symbol" aria-hidden="true"><Braces size={20} /></div>
         </div>
@@ -327,9 +448,9 @@ function ProblemSolving() {
 
 function Contact() {
   return (
-    <section className="section" id="contact" data-scroll-reveal>
+    <section className="section" id="contact">
       <div className="shell">
-        <div className="contact-box">
+        <div className="contact-box" data-scroll-reveal="card" style={{ transitionDelay: '120ms' }}>
           <div className="eyebrow">06 / Contact</div>
           <h2>Open to software engineering opportunities.</h2>
           <p>Interested in Java development, backend development, REST APIs, SQL and software engineering roles.</p>
@@ -351,7 +472,7 @@ function Home() {
       <Header />
       <main>
         <Hero />
-        <div className="shell"><div className="facts-strip">
+        <div className="shell"><div className="facts-strip" data-scroll-reveal="card" style={{ transitionDelay: '120ms' }}>
           <div className="fact"><span className="fact-label">Education</span><span className="fact-value">B.Tech · Artificial Intelligence &amp; Machine Learning</span></div>
           <div className="fact"><span className="fact-label">Core focus</span><span className="fact-value">Java · Backend · REST APIs · SQL</span></div>
           <div className="fact"><span className="fact-label">Currently strengthening</span><span className="fact-value">Java · OOP · DSA · Networking</span></div>
@@ -396,38 +517,38 @@ function TaskManagerProject() {
       <ScrollReveal />
       <Header />
       <main>
-        <section className="case-hero shell" data-scroll-reveal>
-          <Link href="/#projects" className="back-link"><ArrowLeft size={14} /> Back to projects</Link>
-          <div className="eyebrow">Project overview · 02</div>
-          <h1 className="case-title">Task Manager REST API</h1>
-          <p className="case-lede">A backend REST API for managing tasks.</p>
+        <section className="case-hero shell">
+          <RouteTransitionLink href="/#projects" className="back-link" data-scroll-reveal="content"><ArrowLeft size={14} /> Back to projects</RouteTransitionLink>
+          <div className="eyebrow" data-scroll-reveal="heading" style={{ transitionDelay: '80ms' }}>Project overview · 02</div>
+          <h1 className="case-title" data-scroll-reveal="heading" style={{ transitionDelay: '160ms' }}>Task Manager REST API</h1>
+          <p className="case-lede" data-scroll-reveal="supporting" style={{ transitionDelay: '240ms' }}>A backend REST API for managing tasks.</p>
           <div className="case-metadata">
-            <div className="case-meta"><span>Project</span><strong>Task management REST API</strong></div>
-            <div className="case-meta"><span>Technologies</span><strong>{taskManagerTechnologies.join(' · ')}</strong></div>
-            <div className="case-meta"><span>Feature scope</span><strong>Create, retrieve, update, and delete tasks</strong></div>
+            <div className="case-meta" data-scroll-reveal="card" style={{ transitionDelay: '320ms' }}><span>Project</span><strong>Task management REST API</strong></div>
+            <div className="case-meta" data-scroll-reveal="card" style={{ transitionDelay: '400ms' }}><span>Technologies</span><strong>{taskManagerTechnologies.join(' · ')}</strong></div>
+            <div className="case-meta" data-scroll-reveal="card" style={{ transitionDelay: '480ms' }}><span>Feature scope</span><strong>Create, retrieve, update, and delete tasks</strong></div>
           </div>
         </section>
         <div className="shell case-layout">
           <div className="case-content">
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '0ms' }}>
               <div className="eyebrow">01 / Project</div>
               <h2>Task management through a REST API.</h2>
               <p>A backend REST API for managing tasks. The provided feature scope includes task operations, status filtering, validation, exception handling, layered architecture, and unit testing.</p>
             </section>
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '90ms' }}>
               <div className="eyebrow">02 / Features</div>
               <h2>Specified API capabilities.</h2>
               <ul>
                 {taskManagerFeatures.map((feature) => <li key={feature}>{feature}</li>)}
               </ul>
             </section>
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '180ms' }}>
               <div className="eyebrow">03 / Technologies</div>
               <h2>Java backend stack.</h2>
               <p>{taskManagerTechnologies.join(' · ')}</p>
             </section>
           </div>
-          <aside className="case-aside" data-scroll-reveal>
+          <aside className="case-aside" data-scroll-reveal="card" style={{ transitionDelay: '160ms' }}>
             <div className="aside-panel">
               <h3>Technology stack</h3>
               <div className="tag-list">{taskManagerTechnologies.map((item) => <span className="tag" key={item}>{item}</span>)}</div>
@@ -452,34 +573,34 @@ function CaseStudy() {
       <ScrollReveal />
       <Header />
       <main>
-        <section className="case-hero shell" data-scroll-reveal>
-          <Link href="/#projects" className="back-link"><ArrowLeft size={14} /> Back to projects</Link>
-          <div className="eyebrow">Project case study · 01</div>
-          <h1 className="case-title">SafeCampus — AI-Powered Campus Surveillance</h1>
-          <p className="case-lede">A campus surveillance concept that explores using computer vision to identify predefined objects and suspicious events, with the goal of surfacing alerts sooner than retrospective footage review.</p>
-          <div className="case-actions">
+        <section className="case-hero shell">
+          <RouteTransitionLink href="/#projects" className="back-link" data-scroll-reveal="content"><ArrowLeft size={14} /> Back to projects</RouteTransitionLink>
+          <div className="eyebrow" data-scroll-reveal="heading" style={{ transitionDelay: '80ms' }}>Project case study · 01</div>
+          <h1 className="case-title" data-scroll-reveal="heading" style={{ transitionDelay: '160ms' }}>SafeCampus — AI-Powered Campus Surveillance</h1>
+          <p className="case-lede" data-scroll-reveal="supporting" style={{ transitionDelay: '240ms' }}>A campus surveillance concept that explores using computer vision to identify predefined objects and suspicious events, with the goal of surfacing alerts sooner than retrospective footage review.</p>
+          <div className="case-actions" data-scroll-reveal="content" style={{ transitionDelay: '310ms' }}>
             <a className="button button-primary" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> View on GitHub <ArrowUpRight size={12} /></a>
           </div>
           <div className="case-metadata">
-            <div className="case-meta"><span>Project</span><strong>AI-powered campus surveillance concept</strong></div>
-            <div className="case-meta"><span>Technologies</span><strong>Python · OpenCV · YOLO · Flutter · SQLite</strong></div>
-            <div className="case-meta"><span>Current status</span><strong>UI/design and AI detection workflow</strong></div>
+            <div className="case-meta" data-scroll-reveal="card" style={{ transitionDelay: '360ms' }}><span>Project</span><strong>AI-powered campus surveillance concept</strong></div>
+            <div className="case-meta" data-scroll-reveal="card" style={{ transitionDelay: '440ms' }}><span>Technologies</span><strong>Python · OpenCV · YOLO · Flutter · SQLite</strong></div>
+            <div className="case-meta" data-scroll-reveal="card" style={{ transitionDelay: '520ms' }}><span>Current status</span><strong>UI/design and AI detection workflow</strong></div>
           </div>
         </section>
         <div className="shell case-layout">
           <div className="case-content">
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '0ms' }}>
               <div className="eyebrow">01 / Problem</div>
               <h2>Reviewing footage after the fact is not immediate.</h2>
               <p>Campus CCTV footage can require later review to identify objects or suspicious events. SafeCampus is designed around the idea of analyzing footage and generating immediate alerts, rather than relying only on recorded footage review.</p>
             </section>
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '90ms' }}>
               <div className="eyebrow">02 / Solution</div>
               <h2>Bring detection and event visibility into one workflow.</h2>
               <p>The concept combines an AI detection workflow with a user interface for alerts and event history. It is intended to identify predefined objects and events in CCTV footage and make relevant activity easier to surface.</p>
               <p>This project is a work in progress; the listed capabilities describe its intended feature scope and are not all claimed as fully implemented.</p>
             </section>
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '180ms' }}>
               <div className="eyebrow">03 / Features</div>
               <h2>Planned detection and response capabilities.</h2>
               <ul>
@@ -492,19 +613,19 @@ function CaseStudy() {
                 <li>Event history</li>
               </ul>
             </section>
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '270ms' }}>
               <div className="eyebrow">04 / Current implementation</div>
               <h2>UI, design and AI detection workflow.</h2>
               <p>The current project includes the UI/design and AI detection workflow. The Flask backend is planned / in development and is not presented as fully implemented.</p>
               <p>The project is built around Python, OpenCV and YOLO for AI/computer vision, with Flutter and SQLite also included in its technology stack.</p>
             </section>
-            <section data-scroll-reveal>
+            <section data-scroll-reveal="content" style={{ transitionDelay: '360ms' }}>
               <div className="eyebrow">05 / Future improvements</div>
               <h2>Continue toward a connected campus-safety workflow.</h2>
               <p>Planned development includes the Flask backend and continued work toward the listed detection, alert-generation and event-history capabilities.</p>
             </section>
           </div>
-          <aside className="case-aside" data-scroll-reveal>
+          <aside className="case-aside" data-scroll-reveal="card" style={{ transitionDelay: '200ms' }}>
             <div className="aside-panel">
               <h3>Technology stack</h3>
               <div className="tag-list">{['Python', 'OpenCV', 'YOLO', 'Flutter', 'SQLite'].map((item) => <span className="tag" key={item}>{item}</span>)}</div>
@@ -513,7 +634,7 @@ function CaseStudy() {
             </div>
           </aside>
         </div>
-        <div className="shell"><div className="case-footer" data-scroll-reveal>
+        <div className="shell"><div className="case-footer" data-scroll-reveal="card" style={{ transitionDelay: '180ms' }}>
           <div><h3>Explore the project repository</h3><p>GitHub repository for SafeCampus.</p></div>
           <a className="button button-primary" href={githubUrl} target="_blank" rel="noreferrer">Open GitHub <ArrowUpRight size={13} /></a>
         </div></div>
@@ -525,7 +646,20 @@ function CaseStudy() {
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}>{children}</ErrorBoundary>;
+  const supportsViewTransition = typeof (
+    document as unknown as { startViewTransition?: unknown }
+  ).startViewTransition === 'function';
+
+  return (
+    <ErrorBoundary resetKey={location}>
+      <div
+        key={location}
+        className={`route-content${supportsViewTransition ? ' route-content-native' : ' route-content-fallback'}`}
+      >
+        {children}
+      </div>
+    </ErrorBoundary>
+  );
 }
 
 function Router() {
