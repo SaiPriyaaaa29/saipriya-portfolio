@@ -271,7 +271,7 @@ function Hero() {
         <div className="hero-copy">
           <div className="hero-status"><span className="status-dot" /> Open to Software Engineering Opportunities</div>
           <h1>Sai Priya <span>Korupolu.</span></h1>
-          <div className="hero-role">Java Developer <span style={{ color: '#52645a' }}>|</span> Backend &amp; REST APIs <span style={{ color: '#52645a' }}>|</span> AI &amp; ML</div>
+          <div className="hero-role">Java Developer <span style={{ color: '#64748B' }}>|</span> Backend &amp; REST APIs <span style={{ color: '#64748B' }}>|</span> AI &amp; ML</div>
           <p className="hero-description">B.Tech AI &amp; ML student building practical software solutions with Java, backend technologies, SQL and computer vision.</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#projects">View projects <ArrowDownRight size={15} /></a>
