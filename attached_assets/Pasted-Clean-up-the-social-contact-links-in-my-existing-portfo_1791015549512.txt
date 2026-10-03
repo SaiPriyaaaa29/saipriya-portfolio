@@ -1,0 +1,78 @@
+Clean up the social/contact links in my existing portfolio without changing the overall design.
+
+IMPORTANT:
+
+* Do NOT change any existing content except the placement/repetition of Email, GitHub, and LinkedIn links.
+* Do NOT change the background, color palette, typography, layout, animations, project content, or sections.
+* Do NOT redesign the website.
+* Do NOT create new unnecessary sections.
+
+Use this structure:
+
+### Header / Navigation
+
+Keep small, clean access links/icons for:
+
+* GitHub
+* LinkedIn
+* Email
+
+Purpose:
+The header provides quick access for recruiters who want to immediately open my profiles or contact me.
+
+Keep these links visually subtle and consistent with the existing navigation.
+
+### Hero Section
+
+Remove any DUPLICATE large Email, GitHub, or LinkedIn buttons/links from the hero if they are already present in the header.
+
+Keep the hero focused on:
+
+* Introduction
+* Main headline
+* Short description
+* View Projects
+* Download Resume
+
+Do not add new social buttons to the hero.
+
+### Contact Section
+
+Keep Email, GitHub, and LinkedIn clearly visible here.
+
+This should be the main dedicated contact area where a recruiter can find all three options together.
+
+Use clean icons/text links and make them clickable.
+
+### Footer
+
+Remove duplicate Email, GitHub, and LinkedIn links from the footer if the same links are already available in the header and Contact section.
+
+Keep the footer minimal and professional.
+
+### Final structure
+
+Header:
+GitHub | LinkedIn | Email
+
+Hero:
+Introduction | View Projects | Download Resume
+
+Contact:
+Email | LinkedIn | GitHub
+
+Footer:
+Minimal — no repeated social links
+
+Important:
+
+* Use the EXISTING actual URLs/contact information already configured in the project.
+* Do NOT invent URLs, usernames, or email addresses.
+* Do NOT replace working links with placeholders.
+* If a link is currently a placeholder because I have not provided the real URL yet, leave it as-is rather than inventing one.
+* Make sure all remaining links open correctly.
+* Ensure the layout remains responsive on desktop and mobile.
+
+Run a final check for duplicate social/contact links and broken links.
+
+Do not make any other changes to the portfolio.

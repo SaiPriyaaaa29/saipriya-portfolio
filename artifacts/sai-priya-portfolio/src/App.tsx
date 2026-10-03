@@ -1,7 +1,6 @@
-import { type MouseEvent, type ReactNode, useEffect, useState } from 'react';
+import { type MouseEvent, type ReactNode, useEffect } from 'react';
 import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Braces, Github, Linkedin, Mail, ScanEye } from 'lucide-react';
-import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
-import { flushSync } from 'react-dom';
+import { Link, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -69,106 +68,25 @@ function ResumeDownload({ className = '', label = 'Download Resume' }: { classNa
   );
 }
 
-function RouteTransitionLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {
-  const [, navigate] = useLocation();
-
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.defaultPrevented) {
-      return;
-    }
-
-    event.preventDefault();
-
-    const transitionDocument = document as Document & {
-      startViewTransition?: (updateCallback: () => void) => unknown;
-    };
-    const updatePage = () => flushSync(() => navigate(href));
-
-    if (
-      transitionDocument.startViewTransition &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      transitionDocument.startViewTransition(updatePage);
-    } else {
-      navigate(href);
-    }
-  };
-
-  return <a className={className} href={href} onClick={handleClick}>{children}</a>;
-}
-
 function Header() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const targets = navItems
-      .map(([, href]) => {
-        const hashIndex = href.indexOf('#');
-        return hashIndex === -1 ? null : document.getElementById(href.slice(hashIndex + 1));
-      })
-      .filter((target): target is HTMLElement => target instanceof HTMLElement);
-
-    if (targets.length === 0 || !('IntersectionObserver' in window)) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const nextSection = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
-
-        if (nextSection) {
-          setActiveSection(nextSection.target.id);
-        }
-      },
-      { rootMargin: '-80px 0px -60% 0px', threshold: [0, 0.2, 0.4] },
-    );
-
-    targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    let wasScrolled = window.scrollY > 12;
-    setIsScrolled(wasScrolled);
-
-    const updateScrolledState = () => {
-      const isNowScrolled = window.scrollY > 12;
-      if (isNowScrolled !== wasScrolled) {
-        wasScrolled = isNowScrolled;
-        setIsScrolled(isNowScrolled);
-      }
-    };
-
-    window.addEventListener('scroll', updateScrolledState, { passive: true });
-    return () => window.removeEventListener('scroll', updateScrolledState);
-  }, []);
-
   return (
-    <header className={`site-header${isScrolled ? ' is-scrolled' : ''}`}>
+    <header className="site-header">
       <div className="shell nav-inner">
         <a className="brand" href="/" aria-label="Sai Priya Korupolu home">
           <span className="brand-mark">SP</span>
           <span>Sai Priya Korupolu</span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          {navItems.map(([label, href]) => {
-            const sectionId = href.slice(href.indexOf('#') + 1);
-            return (
-              <a
-                key={label}
-                href={href}
-                aria-current={activeSection === sectionId ? 'location' : undefined}
-                onClick={() => setActiveSection(sectionId)}
-              >
-                {label}
-              </a>
-            );
-          })}
+          {navItems.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
         </nav>
-        <div className="nav-actions"><ResumeDownload label="Resume" /></div>
+        <div className="nav-actions">
+          <div className="nav-social-links" role="group" aria-label="Social and contact links">
+            <a href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><Github size={14} aria-hidden="true" /></a>
+            <a href={linkedinUrl} target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><Linkedin size={14} aria-hidden="true" /></a>
+            <a href={`mailto:${emailAddress}`} aria-label="Email" title="Email"><Mail size={14} aria-hidden="true" /></a>
+          </div>
+          <ResumeDownload label="Resume" />
+        </div>
       </div>
     </header>
   );
@@ -180,11 +98,6 @@ function Footer() {
       <div className="shell footer-inner">
         <span>© 2026 Sai Priya Korupolu</span>
         <span className="footer-title">Java Developer | Backend &amp; REST APIs | AI &amp; ML</span>
-        <div className="hero-links" style={{ margin: 0 }}>
-          <a className="text-link" href={githubUrl} target="_blank" rel="noreferrer"><Github size={13} /> GitHub</a>
-          <a className="text-link" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={13} /> LinkedIn</a>
-          <a className="text-link" href={`mailto:${emailAddress}`}><Mail size={13} /> Email</a>
-        </div>
       </div>
     </footer>
   );
@@ -193,11 +106,11 @@ function Footer() {
 function SectionHeading({ index, label, title, detail }: { index: string; label: string; title: string; detail?: string }) {
   return (
     <div className="section-heading">
-      <div data-scroll-reveal="heading">
+      <div>
         <div className="eyebrow">{index} / {label}</div>
         <h2>{title}</h2>
       </div>
-      {detail && <p data-scroll-reveal="supporting" style={{ transitionDelay: '100ms' }}>{detail}</p>}
+      {detail && <p>{detail}</p>}
     </div>
   );
 }
@@ -252,11 +165,6 @@ function Hero() {
           <div className="hero-actions">
             <a className="button button-primary" href="#projects">View projects <ArrowDownRight size={15} /></a>
             <ResumeDownload />
-          </div>
-          <div className="hero-links">
-            <a className="text-link" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> GitHub <ArrowUpRight size={12} /></a>
-            <a className="text-link" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={14} /> LinkedIn <ArrowUpRight size={12} /></a>
-            <a className="text-link" href={`mailto:${emailAddress}`}><Mail size={14} /> Email</a>
           </div>
         </div>
         <div className="hero-visual" aria-hidden="true">
@@ -426,9 +334,9 @@ function Contact() {
           <h2>Open to software engineering opportunities.</h2>
           <p>Interested in Java development, backend development, REST APIs, SQL and software engineering roles.</p>
           <div className="contact-options">
-            <a className="button button-quiet" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> GitHub <ArrowUpRight size={12} /></a>
-            <a className="button button-quiet" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={14} /> LinkedIn <ArrowUpRight size={12} /></a>
             <a className="button button-quiet" href={`mailto:${emailAddress}`}><Mail size={14} /> Email</a>
+            <a className="button button-quiet" href={linkedinUrl} target="_blank" rel="noreferrer"><Linkedin size={14} /> LinkedIn <ArrowUpRight size={12} /></a>
+            <a className="button button-quiet" href={githubUrl} target="_blank" rel="noreferrer"><Github size={14} /> GitHub <ArrowUpRight size={12} /></a>
           </div>
         </div>
       </div>
